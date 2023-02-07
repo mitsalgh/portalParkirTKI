@@ -1,95 +1,46 @@
-#include  <Wire.h>
-#include <LiquidCrystal_I2C.h>
+#define pinRelayOpen D2
+#define pinRelayClose D3
+#define pinRelayStop D4
+#define pinButtonOpen D5
 
+String dataSTB="";
 
-#define Buzzer D3
-int irPin = D7;
-int sensorOut = HIGH;
-int button = D5;
-int led = D6;
-int lcdColumns = 16;
-int lcdRows = 2;
-LiquidCrystal_I2C lcd(0x27, lcdColumns, lcdRows); 
-
-void setup() {
-  // put your setup code here, to run once:
-  pinMode(Buzzer, OUTPUT);
-  pinMode(led, OUTPUT);
-  pinMode(button, INPUT);
-  pinMode(irPin, INPUT);
-  digitalWrite(button, LOW); //activate arduino internal pull up
+void setup() 
+{
   Serial.begin(9600);
-//  lcd.begin(16,2);
-  lcd.init();// initialize LCD
-   lcd.backlight();
-//   lcd.clear ();
-//    lcd.setCursor(0, 0); // lcd cursor one
-//  lcd.println("SELAMAT DATANG__");
-//  digitalWrite(Buzzer,LOW);
-}
-void loop() {
-  
-
-    
-  sensorOut = digitalRead(irPin);
-
-  if (sensorOut == LOW)
-  {   
-    lcd.clear (); 
-lcd.setCursor(0, 0); // lcd cursor one
-  lcd.println("SELAMAT DATANG  ");
-  Serial.println("T");
-    digitalWrite(led, LOW);
-  }
-
-    if (digitalRead(button) == HIGH){
-      lcd.clear ();
-    lcd.setCursor(0, 0); // lcd cursor one
-      lcd.println("SILAHKAN MASUK__");
-    Serial.println("k");
-    digitalWrite(led, HIGH);
-    delay(50);
-    //digitalWrite(led, LOW);
-    //delay(500);
-  }
-
-if (Serial.available()){
-  char data;
-  data = Serial.read();
-  Serial.println(data);
-
-   
-
-  if (data =='o'){
-    digitalWrite(led,HIGH);
-    digitalWrite(Buzzer,HIGH);
-    delay(500);
-    digitalWrite(Buzzer,LOW);
-    lcd.clear ();
-  lcd.setCursor(0, 0); // lcd cursor one
-  lcd.println("SILAHKAN MASUK");
-  
-  }
-
-    else if(data =='c'){
-    digitalWrite(led,LOW);
-      lcd.clear();
-  lcd.setCursor(0, 0); // lcd cursor one
-  lcd.println("SELAMAT DATANG");
-    Serial.println("waiting");
-//    Serial.print("b");
-   // delay(1000);
-  }
-  
+  pinMode(pinRelayOpen, OUTPUT);
+  pinMode(pinRelayClose, OUTPUT);
+  pinMode(pinRelayStop, OUTPUT);
+  pinMode(pinButtonOpen, INPUT); 
 }
 
-//  else {
-//    
-// 
-//  lcd.setCursor(0, 0); // lcd cursor one
-//  lcd.println("SELAMAT DATANG__");
-////  lcd.setCursor(0, 1);        //second row
-////    lcd.print("  -_-   ");
-//    digitalWrite(led, LOW);
-//    }
+void loop() 
+{
+  if(Serial.available()>0) //check Perintah dari STB
+  {
+    delay(10);
+    dataSTB= Serial.readString();
+    if(dataSTB== "b" || dataSTB== "B" || dataSTB== "b\n" || dataSTB== "B\n" )
+    {
+      digitalWrite(pinRelayOpen, HIGH);
+      delay(1000);
+    }
+    else if (dataSTB== "c" || dataSTB== "C" || dataSTB== "c\n" || dataSTB== "C\n" )
+    {
+      digitalWrite(pinRelayClose, HIGH);
+      delay(1000);
+    }
+    else if (dataSTB== "s" || dataSTB== "S" || dataSTB== "s\n" || dataSTB== "S\n" )
+    {
+      digitalWrite(pinRelayClose, HIGH);
+      delay(1000);
+    }
+    digitalWrite(pinRelayClose, LOW);
+    delay(1000);
+  }
+  else if(digitalRead(pinButtonOpen == LOW)
+  {
+    Serial.println("visitor");
+  }
+
 }
