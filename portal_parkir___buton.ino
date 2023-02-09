@@ -1,7 +1,7 @@
-#define pinRelayOpen D2
-#define pinRelayClose D3
-#define pinRelayStop D4
-#define pinButtonOpen D5
+#define pinRelayOpen 2
+#define pinRelayClose 3
+#define pinRelayStop 4
+#define pinButtonOpen 5
 
 String dataSTB="";
 
