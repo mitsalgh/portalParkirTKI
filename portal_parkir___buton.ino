@@ -24,23 +24,32 @@ void loop()
     {
       digitalWrite(pinRelayOpen, HIGH);
       delay(1000);
+      digitalWrite(pinRelayOpen, LOW);
+      Serial.println("opened");
+      
     }
     else if (dataSTB== "c" || dataSTB== "C" || dataSTB== "c\n" || dataSTB== "C\n" )
     {
       digitalWrite(pinRelayClose, HIGH);
       delay(1000);
+      digitalWrite(pinRelayClose, LOW);
+      Serial.println("closed");
+      
     }
     else if (dataSTB== "s" || dataSTB== "S" || dataSTB== "s\n" || dataSTB== "S\n" )
     {
-      digitalWrite(pinRelayClose, HIGH);
+      digitalWrite(pinRelayStop, HIGH);
       delay(1000);
+      digitalWrite(pinRelayStop, LOW);
+      Serial.println("stoped");
     }
     digitalWrite(pinRelayClose, LOW);
     delay(1000);
+    Serial.println("closed");
   }
-  else if(digitalRead(pinButtonOpen == LOW))
-  {
-    Serial.println("visitor");
-  }
+//  else if(digitalRead(pinButtonOpen == LOW))
+//  {
+//    Serial.println("visitor");
+//  }
 
 }
