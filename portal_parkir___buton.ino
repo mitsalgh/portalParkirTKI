@@ -38,7 +38,7 @@ void loop()
     digitalWrite(pinRelayClose, LOW);
     delay(1000);
   }
-  else if(digitalRead(pinButtonOpen == LOW)
+  else if(digitalRead(pinButtonOpen == LOW))
   {
     Serial.println("visitor");
   }
