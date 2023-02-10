@@ -21,7 +21,7 @@ void prosesOpen()
 //    delay(10);
 //    dataSTB= Serial.readString();
 //    Serial.println(
-//    if(dataSTB== "b" || dataSTB== "B" || dataSTB== "b\n" || dataSTB== "B\n" )
+//    if(dataSTB== "o" || dataSTB== "O" || dataSTB== "o\n" || dataSTB== "O\n" )
 //    {
       digitalWrite(pinRelayOpen, HIGH);
       delay(1000);
@@ -30,7 +30,7 @@ void prosesOpen()
       delay(3500);
       digitalWrite(pinRelayClose, HIGH);
       delay(1000);
-      digitalWrite(pinRelayClose, LOW);
+      digitalWrite(pinRelBayClose, LOW);
       delay(3500);
       Serial.println("Closed");
 //    }
@@ -39,15 +39,15 @@ void prosesOpen()
 
 void loop() 
 {
-  while(1)
-  {
-    prosesOpen();
-  }
+//  while(1)
+//  {
+//    prosesOpen();
+//  }b
   if(Serial.available()>0) //check Perintah dari STB
   {
     delay(10);
     dataSTB= Serial.readString();
-    if(dataSTB== "b" || dataSTB== "B" || dataSTB== "b\n" || dataSTB== "B\n" )
+    if(dataSTB== "o" || dataSTB== "O" || dataSTB== "o\n" || dataSTB== "O\n" )
     {
       prosesOpen();
 //      digitalWrite(pinRelayOpen, HIGH);
