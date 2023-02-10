@@ -30,7 +30,7 @@ void prosesOpen()
       delay(3500);
       digitalWrite(pinRelayClose, HIGH);
       delay(1000);
-      digitalWrite(pinRelBayClose, LOW);
+      digitalWrite(pinRelayClose, LOW);
       delay(3500);
       Serial.println("Closed");
 //    }
