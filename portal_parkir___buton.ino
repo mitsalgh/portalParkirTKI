@@ -79,7 +79,7 @@ void loop()
   }
   else if(digitalRead(pinButtonOpen) == LOW)
   {
-    Serial.println("visitor");
+    Serial.println("v");
     prosesOpen();
   }
 }
