@@ -2,6 +2,9 @@
 #define pinRelayClose 3
 #define pinRelayStop 4
 #define pinButtonOpen 5
+#define pinButtonHelp A0
+#define sensorLoopDetectorOpen A1
+#define sensorLoopDetectorClosed A0
 #define LEDOpen 6
 #define LEDClose 8
 #define LEDReady 7
@@ -40,6 +43,17 @@ void prosesOpen()
   delay(3500);
   Serial.println("Closed");
 }
+void prosesClosed()
+{
+  while(digitalRead(sensorLoopDetectorClosed)==HIGH)
+  {
+    if(digitalRead(sensorLoopDetectorClosed)==LOW)
+    {
+      Serial.println("closed");
+      break;
+    }
+  }
+}
 
 void loop() 
 {
@@ -50,13 +64,14 @@ void loop()
     dataSTB= Serial.readString();
     if(dataSTB== "o" || dataSTB== "O" || dataSTB== "o\n" || dataSTB== "O\n" )
     {
-      digitalWrite(LEDReady,LOW);
-      digitalWrite(LEDOpen,HIGH);
-      digitalWrite(pinRelayOpen, HIGH);
-      delay(200);
-      digitalWrite(pinRelayOpen, LOW);
-      Serial.println("opened");
-      digitalWrite(LEDOpen,LOW);
+//      digitalWrite(LEDReady,LOW);
+//      digitalWrite(LEDOpen,HIGH);
+//      digitalWrite(pinRelayOpen, HIGH);
+//      delay(200);
+//      digitalWrite(pinRelayOpen, LOW);
+//      Serial.println("opened");
+//      digitalWrite(LEDOpen,LOW);
+        prosesOpen();
     }
     else if (dataSTB== "c" || dataSTB== "C" || dataSTB== "c\n" || dataSTB== "C\n" )
     {
