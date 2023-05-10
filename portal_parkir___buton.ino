@@ -97,7 +97,7 @@ void resetAll()
 
 void loop() 
 {
-  mode="ready";
+//  mode="testing"; //diisi jika mau testing di komen jika masuk ke production
   if(mode=="testing")
   {
     digitalWrite(LEDReady,HIGH);
@@ -113,9 +113,8 @@ void loop()
       if(digitalRead(pinButtonOpen) == LOW)
       {
           Serial.println("v");
-//      prosesOpen();
+//          prosesOpen();
       }
-      
     }
     if(Serial.available()>0) //check Perintah dari STB
     {
