@@ -67,6 +67,7 @@ void prosesOpenTesting()
   digitalWrite(pinRelayOpen, LOW);
   digitalWrite(LEDOpen, LOW);
   Serial.println("opened");
+  delay(4500);
   digitalWrite(LEDReady,LOW);
   digitalWrite(LEDClose,HIGH);
   digitalWrite(pinRelayClose, HIGH);    
@@ -75,6 +76,7 @@ void prosesOpenTesting()
   digitalWrite(pinRelayClose, LOW);
   digitalWrite(LEDClose, LOW);
   Serial.println("closed");
+  delay(1000);
 }
 void prosesClosed()
 {
@@ -97,7 +99,7 @@ void resetAll()
 
 void loop() 
 {
-//  mode="testing"; //diisi jika mau testing di komen jika masuk ke production
+  mode="testing"; //diisi jika mau testing di komen jika masuk ke production
   if(mode=="testing")
   {
     digitalWrite(LEDReady,HIGH);
