@@ -1,4 +1,4 @@
-#define pinRelayOpen 2
+#define pinRelayOpen 2 
 #define pinRelayClose 3
 #define pinRelayStop 10
 #define pinButtonOpen 5
@@ -18,7 +18,7 @@ String dataSTB = "";
 String statusPortal = "closed";
 String mode = "";
 
-unsigned long lastDebounceTime = 0; //variabel untuk debounce
+unsigned long lastDebounceTime = 0; //variabel untuk debounce waktu
 unsigned long debounceDelay = 50; //waktu debounce dalam milidetik
 unsigned long prevMillis = 0; //variabel untuk menyimpan waktu sebelumnya
 unsigned long interval = 350; //interval waktu untuk membaca keypad dalam m
@@ -101,7 +101,7 @@ void resetAll()
 
 void loop()
 {
-  mode = "testing"; //diisi jika mau testing di komen jika masuk ke production
+  mode = "testing"; //diisi jika mau testing, di komen jika masuk ke production 
   if (mode == "testing")
   {
     digitalWrite(LEDReady, HIGH);
