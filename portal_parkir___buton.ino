@@ -2,7 +2,7 @@
 #define pinRelayClose 3
 #define pinRelayStop 10
 #define pinButtonOpen 5
-#define pinButtonHelp A2
+#define pinButtonHelp A2 
 #define sensorLoopDetectorOpen A1
 #define sensorLoopDetectorClosed A0
 #define LEDOpen 6
