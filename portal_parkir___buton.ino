@@ -1,4 +1,4 @@
-#define pinRelayOpen 2 
+#define pinRelayOpen 2
 #define pinRelayClose 3
 #define pinRelayStop 10
 #define pinButtonOpen 5
@@ -8,7 +8,8 @@
 #define LEDOpen 6
 #define LEDClose 8
 #define LEDReady 7
-#define loopDetector A3
+#define loopDetector1 A3
+#define loopDetector2 A4
 
 int flagVehicleIn = 0;
 int flagVehicleOut = 0;
@@ -18,11 +19,11 @@ String dataSTB = "";
 String statusPortal = "closed";
 String mode = "";
 
-unsigned long lastDebounceTime = 0; //variabel untuk debounce waktu
+unsigned long lastDebounceTime = 0; //variabel untuk debounce
 unsigned long debounceDelay = 50; //waktu debounce dalam milidetik
 unsigned long prevMillis = 0; //variabel untuk menyimpan waktu sebelumnya
 unsigned long interval = 350; //interval waktu untuk membaca keypad dalam m
-unsigned long intervalVehicle = 1000; //interval waktu untuk membaca keypad dalam m
+unsigned long intervalVehicle = 500; //interval waktu untuk membaca keypad dalam m
 
 void setup()
 {
@@ -35,7 +36,8 @@ void setup()
   pinMode(LEDReady, OUTPUT);
   pinMode(pinButtonOpen, INPUT_PULLUP);
   pinMode(pinButtonHelp, INPUT_PULLUP);
-  pinMode(loopDetector, INPUT_PULLUP);
+  pinMode(loopDetector1, INPUT_PULLUP);
+  pinMode(loopDetector2, INPUT_PULLUP);
   mode = "ready";
 }
 
@@ -68,17 +70,17 @@ void prosesOpenTesting()
   delay(1000);
   digitalWrite(pinRelayOpen, LOW);
   digitalWrite(LEDOpen, LOW);
-  Serial.println("opened");
-  delay(3500);
-  digitalWrite(LEDReady, LOW);
-  digitalWrite(LEDClose, HIGH);
-  digitalWrite(pinRelayClose, HIGH);
-  digitalWrite(LEDReady, LOW);
-  delay(1000);
-  digitalWrite(pinRelayClose, LOW);
-  digitalWrite(LEDClose, LOW);
-  Serial.println("closed");
-  delay(1000);
+//  Serial.println("opened");
+//  delay(3500);
+//  digitalWrite(LEDReady, LOW);
+//  digitalWrite(LEDClose, HIGH);
+//  digitalWrite(pinRelayClose, HIGH);
+//  digitalWrite(LEDReady, LOW);
+//  delay(1000);
+//  digitalWrite(pinRelayClose, LOW);
+//  digitalWrite(LEDClose, LOW);
+//  Serial.println("closed");
+//  delay(1000);
 }
 void prosesClosed()
 {
@@ -101,7 +103,7 @@ void resetAll()
 
 void loop()
 {
-  mode = "testing"; //diisi jika mau testing, di komen jika masuk ke production 
+  mode = "testing"; // jika mau testing di komen jika masuk ke production
   if (mode == "testing")
   {
     digitalWrite(LEDReady, HIGH);
@@ -129,6 +131,7 @@ void loop()
       {
         flagButtonOpen = 0;
       }
+      
     }
     if (Serial.available() > 0) //check Perintah dari STB
     {
@@ -169,19 +172,26 @@ void loop()
     if (currentMillis - prevMillis >= intervalVehicle)
     { //jika interval waktu sudah terlewati
       prevMillis = currentMillis; //memperbarui waktu sebelumnya
-      if (digitalRead(loopDetector) == LOW)
+      if (digitalRead(loopDetector1) == LOW && digitalRead(loopDetector2)==HIGH)
       {
         if (flagVehicleIn == 0)
         {
-          Serial.println("vehicle");
+          Serial.println("motor");
           mode = "in";
         }
       }
-
+      else if (digitalRead(loopDetector1) == LOW && digitalRead(loopDetector2)==LOW)
+      {
+        if (flagVehicleIn == 0)
+        {
+          Serial.println("mobil");
+          mode = "in";
+        }
+      }
     }
   }
   else if (mode == "in")
-  {
+  { 
     unsigned long currentMillis = millis(); //mendapatkan waktu saat ini
     if (currentMillis - prevMillis >= interval)
     { //jika interval waktu sudah terlewati
@@ -239,12 +249,12 @@ void loop()
       if (currentMillis - prevMillis >= interval)
       { //jika interval waktu sudah terlewati
         prevMillis = currentMillis; //memperbarui waktu sebelumnya
-        if (digitalRead(loopDetector) == LOW)
+        if (digitalRead(loopDetector1) == LOW)
         {
           flagVehicleOut = 1;
           //          Serial.println("closed");
         }
-        else if (digitalRead(loopDetector) == HIGH && flagVehicleOut == 1)
+        else if (digitalRead(loopDetector1) == HIGH && flagVehicleOut == 1)
         {
           Serial.println("closed");
           delay(200);
