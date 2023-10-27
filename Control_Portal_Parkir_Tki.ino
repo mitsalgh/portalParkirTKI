@@ -2,7 +2,7 @@
 #define pinRelayClose 3
 #define pinRelayStop 10
 #define pinButtonOpen 5   //5
-#define pinButtonHelp A2  /A2
+#define pinButtonHelp A2  //A2
 #define sensorLoopDetectorOpen A1
 #define sensorLoopDetectorClosed A0
 #define LEDOpen 6
@@ -68,10 +68,12 @@ void prosesOpenTesting()
   digitalWrite(LEDReady, LOW);
   digitalWrite(LEDOpen, HIGH);
   delay(1000);
-  digitalWrite(pinRelayOpen, LOW);
-  digitalWrite(LEDOpen, LOW);
+  digitalWrite(pinRelayOpen, HIGH);
+  digitalWrite(LEDOpen, HIGH);
   Serial.println("opened");
   delay(3500);
+  digitalWrite(pinRelayOpen, LOW);
+  digitalWrite(LEDOpen, LOW);
   digitalWrite(LEDReady, LOW);
   digitalWrite(LEDClose, HIGH);
   digitalWrite(pinRelayClose, HIGH);
@@ -103,10 +105,10 @@ void resetAll()
 
 void loop()
 {
-//    while(1)
-//    {
-//      Serial.print(digitalRead(pinButtonHelp));
-//    }
+  //  while(1)
+  //  {
+  //    Serial.println(digitalRead(pinButtonHelp));
+  //  }
   mode = "testing"; // jika mau testing di komen jika masuk ke production
 
  //============================================ Untuk Sistem Testing Tanpa Sensor===================================================
