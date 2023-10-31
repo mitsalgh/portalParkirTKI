@@ -1,15 +1,15 @@
 #define pinRelayOpen 2
 #define pinRelayClose 3
 #define pinRelayStop 10
-#define pinButtonOpen 5  //5
-#define pinButtonHelp A2  //A2
+#define pinButtonOpen 11   //5
+#define pinButtonHelp 12  //A2
 #define sensorLoopDetectorOpen A1
 #define sensorLoopDetectorClosed A0
 #define LEDOpen 6
 #define LEDClose 8
 #define LEDReady 7
-#define loopDetector1 A3
-#define loopDetector2 A4
+#define loopDetector1 5
+#define loopDetector2 A5
 
 int flagVehicleIn = 0;
 int flagVehicleOut = 0;
@@ -188,7 +188,7 @@ void loop()
       {
         if (flagVehicleIn == 0)
         {
-          Serial.println("motor");
+          Serial.println("motorcycle");
           mode = "in";
         }
       }
@@ -196,7 +196,7 @@ void loop()
       {
         if (flagVehicleIn == 0)
         {
-          Serial.println("mobil");
+          Serial.println("car");
           mode = "in";
         }
       }
