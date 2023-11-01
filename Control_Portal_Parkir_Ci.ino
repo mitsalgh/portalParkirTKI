@@ -1,15 +1,15 @@
 #define pinRelayOpen 2
 #define pinRelayClose 3
 #define pinRelayStop 10
-#define pinButtonOpen 11   //5
-#define pinButtonHelp 12  //A2
+#define pinButtonOpen 5   //5
+#define pinButtonHelp A2  //A2
 #define sensorLoopDetectorOpen A1
 #define sensorLoopDetectorClosed A0
 #define LEDOpen 6
 #define LEDClose 8
 #define LEDReady 7
-#define loopDetector1 5
-#define loopDetector2 A5
+#define loopDetector1 A3
+#define loopDetector2 A4
 
 int flagVehicleIn = 0;
 int flagVehicleOut = 0;
@@ -38,6 +38,7 @@ void setup()
   pinMode(pinButtonHelp, INPUT_PULLUP);
   pinMode(loopDetector1, INPUT_PULLUP);
   pinMode(loopDetector2, INPUT_PULLUP);
+  pinMode(sensorLoopDetectorClosed, INPUT_PULLUP);
   mode = "ready";
 }
 
@@ -103,10 +104,10 @@ void resetAll()
 
 void loop()
 {
-//      while(1)
-//      {
-//        Serial.print(digitalRead(loopDetector2));
-//      }
+    //  while(1)
+    //  {
+    //    Serial.println(digitalRead(sensorLoopDetectorClosed));
+    //  }
 //  mode = "testing"; // jika mau testing di komen jika masuk ke production
   if (mode == "testing")
   {
@@ -188,7 +189,7 @@ void loop()
       {
         if (flagVehicleIn == 0)
         {
-          Serial.println("motorcycle");
+          Serial.println("MOTORCYCLE");
           mode = "in";
         }
       }
@@ -196,7 +197,7 @@ void loop()
       {
         if (flagVehicleIn == 0)
         {
-          Serial.println("car");
+          Serial.println("CAR");
           mode = "in";
         }
       }
@@ -249,33 +250,33 @@ void loop()
       }
      mode = "ready";
     }
-    // if (statusPortal == "open")
-    // {
-    //   mode = "close";
-    // }
+    if (statusPortal == "open")
+    {
+      mode = "close";
+    }
   }
-    // else if (mode = "close")
-    // {
-    //   while (statusPortal == "open")
-    //   {
-    //     unsigned long currentMillis = millis(); //mendapatkan waktu saat ini
-    //     if (currentMillis - prevMillis >= interval)
-    //     { //jika interval waktu sudah terlewati
-    //       prevMillis = currentMillis; //memperbarui waktu sebelumnya
-    //       if (digitalRead(loopDetector1) == LOW)
-    //       {
-    //         flagVehicleOut = 1;
-    //         //          Serial.println("closed");
-    //       }
-    //       else if (digitalRead(loopDetector1) == HIGH && flagVehicleOut == 1)
-    //       {
-    //         Serial.println("closed");
-    //         delay(200);
-    //         statusPortal = "closed";
-    //         resetAll();
-    //       }
-    //     }
-    //   }
-    // }
+    else if (mode = "close")
+    {
+      while (statusPortal == "open")
+      {
+        unsigned long currentMillis = millis(); //mendapatkan waktu saat ini
+        if (currentMillis - prevMillis >= interval)
+        { //jika interval waktu sudah terlewati
+          prevMillis = currentMillis; //memperbarui waktu sebelumnya
+          if (digitalRead(sensorLoopDetectorClosed) == LOW)
+          {
+            flagVehicleOut = 1;
+            //          Serial.println("closed");
+          }
+          else if (digitalRead(sensorLoopDetectorClosed) == HIGH && flagVehicleOut == 1)
+          {
+            Serial.println("closed");
+            delay(200);
+            statusPortal = "closed";
+            resetAll();
+          }
+        }
+      }
+    }
   
 }
