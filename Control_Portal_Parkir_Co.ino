@@ -2,7 +2,7 @@
 #define pinRelayClose 3
 #define pinRelayStop 10
 #define pinButtonOpen 5   //5
-#define pinButtonHelp A5  //A2
+#define pinButtonHelp A2  //A2
 #define sensorLoopDetectorOpen A1
 #define sensorLoopDetectorClosed A0
 #define LEDOpen 6
@@ -50,17 +50,7 @@ void prosesOpen()
   digitalWrite(pinRelayOpen, LOW);
   digitalWrite(LEDOpen, LOW);
   Serial.println("opened");
-  //  statusPortal = "open";
-  delay(2000);
-  digitalWrite(pinRelayClose, HIGH);
-  digitalWrite(LEDReady, LOW);
-  digitalWrite(LEDClose, HIGH);
-  delay(1000);
-  digitalWrite(pinRelayClose, LOW);
-  digitalWrite(LEDClose, LOW);
-  Serial.println("closed");
   statusPortal = "open";
-  //    delay(2000);
 }
 void prosesOpenTesting()
 {
@@ -71,16 +61,16 @@ void prosesOpenTesting()
   digitalWrite(pinRelayOpen, LOW);
   digitalWrite(LEDOpen, LOW);
   Serial.println("opened");
-//  delay(3500);
-//  digitalWrite(LEDReady, LOW);
-//  digitalWrite(LEDClose, HIGH);
-//  digitalWrite(pinRelayClose, HIGH);
-//  digitalWrite(LEDReady, LOW);
-//  delay(1000);
-//  digitalWrite(pinRelayClose, LOW);
-//  digitalWrite(LEDClose, LOW);
-//  Serial.println("closed");
-//  delay(1000);
+  //  delay(3500);
+  //  digitalWrite(LEDReady, LOW);
+  //  digitalWrite(LEDClose, HIGH);
+  //  digitalWrite(pinRelayClose, HIGH);
+  //  digitalWrite(LEDReady, LOW);
+  //  delay(1000);
+  //  digitalWrite(pinRelayClose, LOW);
+  //  digitalWrite(LEDClose, LOW);
+  //  Serial.println("closed");
+  //  delay(1000);
 }
 void prosesClosed()
 {
@@ -103,11 +93,7 @@ void resetAll()
 
 void loop()
 {
-//    while(1)
-//    {
-//      Serial.print(digitalRead(pinButtonHelp));
-//    }
-  mode = "testing"; // jika mau testing di komen jika masuk ke production
+  // mode = "testing"; // jika mau testing di komen jika masuk ke production
   if (mode == "testing")
   {
     digitalWrite(LEDReady, HIGH);
@@ -145,7 +131,7 @@ void loop()
       dataSTB = Serial.readString();
       if (dataSTB == "o" || dataSTB == "O" || dataSTB == "o\n" || dataSTB == "O\n" )
       {
-        prosesOpenTesting();
+        prosesOpen();
       }
       else if (dataSTB == "c" || dataSTB == "C" || dataSTB == "c\n" || dataSTB == "C\n" )
       {
@@ -171,6 +157,7 @@ void loop()
       mode = "close";
     }
   }
+  //=================================================== Untuk Sistem Ready ==========================================
   if (mode == "ready")
   {
     digitalWrite(LEDReady, HIGH);
@@ -179,28 +166,21 @@ void loop()
     { //jika interval waktu sudah terlewati
       prevMillis = currentMillis; //memperbarui waktu sebelumnya
 
-      //      Serial.print(digitalRead(loopDetector1));
-      //      Serial.print("  ");
-      //      Serial.print(digitalRead(loopDetector2));
-      //      Serial.println();
-      if (digitalRead(loopDetector1) == LOW && digitalRead(loopDetector2) == HIGH || digitalRead(loopDetector1) == HIGH && digitalRead(loopDetector2) == LOW)
+      //            Serial.print(digitalRead(loopDetector1));
+      //            Serial.print("  ");
+      //            Serial.print(digitalRead(loopDetector2));
+      //            Serial.println();
+      if (digitalRead(loopDetector1) == HIGH && digitalRead(loopDetector2) == LOW)
       {
         if (flagVehicleIn == 0)
         {
-          Serial.println("motor");
-          mode = "in";
-        }
-      }
-      else if (digitalRead(loopDetector1) == LOW && digitalRead(loopDetector2) == LOW)
-      {
-        if (flagVehicleIn == 0)
-        {
-          Serial.println("mobil");
+          Serial.println("VEHICLE");
           mode = "in";
         }
       }
     }
   }
+  
   else if (mode == "in")
   {
     unsigned long currentMillis = millis(); //mendapatkan waktu saat ini
@@ -246,35 +226,34 @@ void loop()
         digitalWrite(pinRelayStop, LOW);
         Serial.println("stoped");
       }
-      mode = "ready";
+      //      mode = "ready";
     }
-    //    if (statusPortal == "open")
-    //    {
-    //      mode = "close";
-    //    }
+    if (statusPortal == "open")
+    {
+      mode = "close";
+    }
   }
-  //  else if (mode = "close")
-  //  {
-  //    while (statusPortal == "open")
-  //    {
-  //      unsigned long currentMillis = millis(); //mendapatkan waktu saat ini
-  //      if (currentMillis - prevMillis >= interval)
-  //      { //jika interval waktu sudah terlewati
-  //        prevMillis = currentMillis; //memperbarui waktu sebelumnya
-  //        if (digitalRead(loopDetector1) == LOW)
-  //        {
-  //          flagVehicleOut = 1;
-  //          //          Serial.println("closed");
-  //        }
-  //        else if (digitalRead(loopDetector1) == HIGH && flagVehicleOut == 1)
-  //        {
-  //          Serial.println("closed");
-  //          delay(200);
-  //          statusPortal = "closed";
-  //          resetAll();
-  //        }
-  //      }
-  //    }
-  //  }
-//  
+  else if (mode = "close")
+  {
+    while (statusPortal == "open")
+    {
+      unsigned long currentMillis = millis(); //mendapatkan waktu saat ini
+      if (currentMillis - prevMillis >= interval)
+      { //jika interval waktu sudah terlewati
+        prevMillis = currentMillis; //memperbarui waktu sebelumnya
+        if (digitalRead(loopDetector1) == LOW)
+        {
+          flagVehicleOut = 1;
+          //          Serial.println("closed");
+        }
+        else if (digitalRead(loopDetector1) == HIGH && flagVehicleOut == 1)
+        {
+          Serial.println("closed");
+          delay(200);
+          statusPortal = "closed";
+          resetAll();
+        }
+      }
+    }
+  }
 }
