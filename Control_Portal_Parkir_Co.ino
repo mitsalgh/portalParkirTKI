@@ -241,12 +241,12 @@ void loop()
       if (currentMillis - prevMillis >= interval)
       { //jika interval waktu sudah terlewati
         prevMillis = currentMillis; //memperbarui waktu sebelumnya
-        if (digitalRead(loopDetector1) == LOW)
+        if (digitalRead(sensorLoopDetectorClosed) == LOW)
         {
           flagVehicleOut = 1;
           //          Serial.println("closed");
         }
-        else if (digitalRead(loopDetector1) == HIGH && flagVehicleOut == 1)
+        else if (digitalRead(sensorLoopDetectorClosed) == HIGH && flagVehicleOut == 1)
         {
           Serial.println("closed");
           delay(200);
