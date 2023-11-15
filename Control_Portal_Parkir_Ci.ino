@@ -100,6 +100,9 @@ void resetAll()
   mode = "ready";
   statusPortal = "ready";
   flagVehicleOut = 0;
+  int flagVehicleIn = 0;
+  int flagButtonOpen = 0;
+  int flagButtonHelp = 0;
 }
 
 void loop()
