@@ -61,16 +61,16 @@ void prosesOpenTesting()
   digitalWrite(pinRelayOpen, LOW);
   digitalWrite(LEDOpen, LOW);
   Serial.println("opened");
-  //  delay(3500);
-  //  digitalWrite(LEDReady, LOW);
-  //  digitalWrite(LEDClose, HIGH);
-  //  digitalWrite(pinRelayClose, HIGH);
-  //  digitalWrite(LEDReady, LOW);
-  //  delay(1000);
-  //  digitalWrite(pinRelayClose, LOW);
-  //  digitalWrite(LEDClose, LOW);
-  //  Serial.println("closed");
-  //  delay(1000);
+   delay(3500);
+   digitalWrite(LEDReady, LOW);
+   digitalWrite(LEDClose, HIGH);
+   digitalWrite(pinRelayClose, HIGH);
+   digitalWrite(LEDReady, LOW);
+   delay(1000);
+   digitalWrite(pinRelayClose, LOW);
+   digitalWrite(LEDClose, LOW);
+   Serial.println("closed");
+   delay(1000);
 }
 void prosesClosed()
 {
@@ -131,7 +131,7 @@ void loop()
       dataSTB = Serial.readString();
       if (dataSTB == "o" || dataSTB == "O" || dataSTB == "o\n" || dataSTB == "O\n" )
       {
-        prosesOpen();
+        prosesOpenTesting();
       }
       else if (dataSTB == "c" || dataSTB == "C" || dataSTB == "c\n" || dataSTB == "C\n" )
       {
@@ -170,11 +170,11 @@ void loop()
       //            Serial.print("  ");
       //            Serial.print(digitalRead(loopDetector2));
       //            Serial.println();
-      if (digitalRead(loopDetector1) == HIGH && digitalRead(loopDetector2) == LOW)
+      if (digitalRead(loopDetector1) == HIGH)
       {
         if (flagVehicleIn == 0)
         {
-          Serial.println("VEHICLE");
+          Serial.println("car");
           mode = "in";
         }
       }
@@ -241,12 +241,12 @@ void loop()
       if (currentMillis - prevMillis >= interval)
       { //jika interval waktu sudah terlewati
         prevMillis = currentMillis; //memperbarui waktu sebelumnya
-        if (digitalRead(sensorLoopDetectorClosed) == LOW)
+        if (digitalRead(loopDetector2) == LOW)
         {
           flagVehicleOut = 1;
           //          Serial.println("closed");
         }
-        else if (digitalRead(sensorLoopDetectorClosed) == HIGH && flagVehicleOut == 1)
+        else if (digitalRead(loopDetector2) == HIGH && flagVehicleOut == 1)
         {
           Serial.println("closed");
           delay(200);
