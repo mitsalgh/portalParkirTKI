@@ -52,16 +52,16 @@ void prosesOpen()
   digitalWrite(LEDOpen, LOW);
   Serial.println("opened");
   statusPortal = "open";
-  //  delay(2000);
-  //  digitalWrite(pinRelayClose, HIGH);
-  //  digitalWrite(LEDReady, LOW);
-  //  digitalWrite(LEDClose, HIGH);
-  //  delay(1000);
-  //  digitalWrite(pinRelayClose, LOW);
-  //  digitalWrite(LEDClose, LOW);
-  //  Serial.println("closed");
-  //  statusPortal = "open";
-  //    delay(2000);
+   delay(2000);
+   digitalWrite(pinRelayClose, HIGH);
+   digitalWrite(LEDReady, LOW);
+   digitalWrite(LEDClose, HIGH);
+   delay(1000);
+   digitalWrite(pinRelayClose, LOW);
+   digitalWrite(LEDClose, LOW);
+   Serial.println("closed");
+   statusPortal = "open";
+     delay(2000);
 }
 void prosesOpenTesting()
 {
