@@ -38,6 +38,8 @@ void setup()
   pinMode(pinButtonHelp, INPUT_PULLUP);
   pinMode(loopDetector1, INPUT_PULLUP);
   pinMode(loopDetector2, INPUT_PULLUP);
+  pinMode(sensorLoopDetectorClosed, INPUT_PULLUP);
+  pinMode(sensorLoopDetectorOpen, INPUT_PULLUP);
   mode = "ready";
 }
 
